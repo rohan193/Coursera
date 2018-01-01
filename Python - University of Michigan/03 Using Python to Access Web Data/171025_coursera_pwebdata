@@ -1,0 +1,87 @@
+#Author : Rohan M. Nanaware
+#Date C.: 25th Oct 2017
+#Date M.: 28th Oct 2017
+#Purpose: Using python to access web data - code documentation
+
+#Regular expressions
+import re
+
+text = "A Quick  1 Brown Fox 10 Inside A Box 20"
+y = re.findall("[0-9]+", text)
+print(y)
+y = re.findall("[AEIOU]+", text)
+print(y)
+
+x = "From: the entire wordbase: "
+y = re.findall("^F.+:", x)#greedy
+print(y)
+y = re.findall("^F.+?:", x)#non - greedy : Starts with F, any number 
+#                           of characters, repeats one or more times,
+#                           non-greedy, ends with colon
+print(y)
+
+x = "From abc.xyz@lmn.com sent you a mail "
+y = re.findall("\S+@\S+", x)#Starts with non blank, repeats one or more times,
+#                           Followed by @, ends with non-blank, repeats 1 or more times
+print(y)
+y = re.findall("^From (\S+@\S+)", x)#Match the whole  pattern but return pattern only in the paranthesis
+print(y)
+y = re.findall("^From .*@([^ ]*)", x)#Starts with From, followed by space, followed by
+#                                   any character repeating zero or more times, 
+#                                   followed by @, text  starting with anythng, 
+#                                   followed by space
+print(y)
+
+#Week2 assignment
+
+#Finding Numbers in a Haystack
+#In this assignment you will read through and parse a file with text and numbers. You will extract all the numbers in the file and compute the sum of the numbers.
+
+#test file - regex_sum_42.txt
+
+import re
+
+fname = input("Enter file name : ")
+file = open(fname)#Enter - regex_sum_42.txt
+sum_ = 0
+for line in file:
+    #print(line)
+    regoutput = re.findall("[0-9]+",line)
+    if len(regoutput) < 1: 
+        continue
+    else:
+        for text in regoutput:
+            sum_ = sum_ + int(text)
+
+print(sum_)
+
+################################ Week 3 #####################################
+import socket
+mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+mysock.connect(('data.pr4e.org',80))
+cmd = 'GET http://data.pr4e.org/romeo.txt HTTP/1.0\n\n'.encode()
+mysock.send(cmd)
+
+while True:
+    data = mysock.recv(512)
+    if (len(data) < 1):
+        break
+    print(data.decode())
+mysock.close()
+
+#Assignment
+import socket
+
+mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+mysock.connect(('data.pr4e.org', 80))
+cmd = 'GET http://data.pr4e.org/intro-short.txt\r\n\r\n'.encode()
+mysock.send(cmd)
+
+while True:
+    data = mysock.recv(512)
+    if (len(data) < 1):
+        break
+    print(data.decode())
+mysock.close()
+
+################################ Week 4 #####################################
